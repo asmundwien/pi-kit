@@ -1,0 +1,32 @@
+{
+  "name": "pi-kit",
+  "version": "0.1.0",
+  "description": "A small kit of utility commands for the pi CLI.",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-cli",
+    "cli"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asmundwien/pi-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/asmundwien/pi-kit/issues"
+  },
+  "homepage": "https://github.com/asmundwien/pi-kit#readme",
+  "files": [
+    "extensions",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  }
+}
