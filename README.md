@@ -53,14 +53,22 @@ Commit effects:
 - `feat!: ...` or a `BREAKING CHANGE:` footer publishes a major release.
 - `docs: ...`, `chore: ...`, `ci: ...`, and similar non-release commits do not publish.
 
-The release workflow runs on `main`, creates the GitHub release/tag, and publishes to npm with provenance.
+The release workflow runs on `main`, creates the GitHub release/tag, and publishes to npm through npm Trusted Publishing.
 
 For the first `0.1.0` release, publish once manually and tag the release so semantic-release has a baseline:
 
 ```bash
-pnpm publish --access public --provenance
+pnpm publish --access public
 git tag v0.1.0
 git push origin v0.1.0
 ```
+
+Then configure npm Trusted Publishing for the package:
+
+- Provider: GitHub Actions
+- Organization/user: `asmundwien`
+- Repository: `pi-kit`
+- Workflow filename: `publish-npm.yml`
+- Allowed action: npm publish
 
 After that, release only through Conventional Commits on `main`.
