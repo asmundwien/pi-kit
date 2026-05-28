@@ -1,0 +1,13 @@
+intake:
+  version: 1
+  items:
+    - id: d401e47c-0474-4652-b1ff-472c0103d532
+      status: open
+      created_at: 2026-05-28T11:25:28.759Z
+      created_date: 2026-05-28
+      pi_session_id: 019e6d85-0d92-7091-8e8b-7551ef9f407d
+      title: Evaluate new pi package namespace for coding-agent dependency
+      found_location: pnpm install warning after switching to pnpm
+      classification: Adjacent
+      actionability: requires judgment
+      detail: pnpm reported @mariozechner/pi-coding-agent@0.73.1 is deprecated and recommends @earendil-works/pi-coding-agent instead. Current package still uses @mariozechner/pi-coding-agent because existing extension imports and pi docs reference that package name.

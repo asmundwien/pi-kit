@@ -21,12 +21,13 @@
 		"extensions",
 		"README.md"
 	],
+	"packageManager": "pnpm@10.33.2",
 	"scripts": {
-		"check": "npm run format:check && npm run lint && npm run typecheck",
+		"check": "pnpm run format:check && pnpm run lint && pnpm run typecheck",
 		"format": "biome format --write .",
 		"format:check": "biome format .",
 		"lint": "biome lint .",
-		"pack:dry-run": "npm pack --dry-run",
+		"pack:dry-run": "pnpm pack --dry-run",
 		"prepare": "husky",
 		"release": "semantic-release",
 		"typecheck": "tsc --noEmit"

@@ -32,13 +32,19 @@ To try it without installing:
 pi -e ./extensions/code.ts
 ```
 
+## Development
+
+This project uses pnpm.
+
+```bash
+pnpm install
+pnpm run check
+pnpm run pack:dry-run
+```
+
 ## Releases
 
 Releases are automated with Conventional Commits and semantic-release.
-
-Required repository secret:
-
-- `NPM_TOKEN` — an npm automation/access token with publish permission for this package.
 
 Commit effects:
 
@@ -52,7 +58,7 @@ The release workflow runs on `main`, creates the GitHub release/tag, and publish
 For the first `0.1.0` release, publish once manually and tag the release so semantic-release has a baseline:
 
 ```bash
-npm publish --access public --provenance
+pnpm publish --access public --provenance
 git tag v0.1.0
 git push origin v0.1.0
 ```
