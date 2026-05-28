@@ -41,6 +41,20 @@ Examples:
 /code --new-window "path with spaces"
 ```
 
+### `/open [args...]`
+
+Opens files, directories, or URLs with the OS default opener and forwards arguments.
+
+Uses `open` on macOS, `xdg-open` on Linux, and `start` through `cmd` on Windows.
+
+Examples:
+
+```text
+/open .
+/open https://github.com/asmundwien/pi-kit
+/open "path with spaces"
+```
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
