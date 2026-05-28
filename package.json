@@ -1,5 +1,5 @@
 {
-	"name": "pi-kit",
+	"name": "@asmundwien/pi-kit",
 	"version": "0.1.0",
 	"description": "A small kit of utility commands for the pi CLI.",
 	"keywords": [
@@ -22,6 +22,9 @@
 		"README.md"
 	],
 	"packageManager": "pnpm@10.33.2",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"check": "pnpm run format:check && pnpm run lint && pnpm run typecheck",
 		"format": "biome format --write .",

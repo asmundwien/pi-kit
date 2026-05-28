@@ -11,7 +11,7 @@ A small kit of utility commands for the pi CLI.
 ### From npm
 
 ```bash
-pi install npm:pi-kit
+pi install npm:@asmundwien/pi-kit
 ```
 
 ### From git
@@ -63,7 +63,7 @@ git tag v0.1.0
 git push origin v0.1.0
 ```
 
-Then configure npm Trusted Publishing for the package:
+Then configure npm Trusted Publishing for package `@asmundwien/pi-kit`:
 
 - Provider: GitHub Actions
 - Organization/user: `asmundwien`
