@@ -1,45 +1,56 @@
 {
-  "name": "pi-kit",
-  "version": "0.1.0",
-  "description": "A small kit of utility commands for the pi CLI.",
-  "keywords": [
-    "pi-package",
-    "pi",
-    "pi-cli",
-    "cli"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/asmundwien/pi-kit.git"
-  },
-  "bugs": {
-    "url": "https://github.com/asmundwien/pi-kit/issues"
-  },
-  "homepage": "https://github.com/asmundwien/pi-kit#readme",
-  "files": [
-    "extensions",
-    "README.md"
-  ],
-  "scripts": {
-    "pack:dry-run": "npm pack --dry-run",
-    "release": "semantic-release"
-  },
-  "peerDependencies": {
-    "@mariozechner/pi-coding-agent": "*"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^21.0.1",
-    "@commitlint/config-conventional": "^21.0.1",
-    "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/github": "^12.0.2",
-    "@semantic-release/npm": "^13.1.5",
-    "@semantic-release/release-notes-generator": "^14.1.0",
-    "semantic-release": "^25.0.3"
-  },
-  "pi": {
-    "extensions": [
-      "./extensions"
-    ]
-  }
+	"name": "pi-kit",
+	"version": "0.1.0",
+	"description": "A small kit of utility commands for the pi CLI.",
+	"keywords": [
+		"pi-package",
+		"pi",
+		"pi-cli",
+		"cli"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/asmundwien/pi-kit.git"
+	},
+	"bugs": {
+		"url": "https://github.com/asmundwien/pi-kit/issues"
+	},
+	"homepage": "https://github.com/asmundwien/pi-kit#readme",
+	"files": [
+		"extensions",
+		"README.md"
+	],
+	"scripts": {
+		"check": "npm run format:check && npm run lint && npm run typecheck",
+		"format": "biome format --write .",
+		"format:check": "biome format .",
+		"lint": "biome lint .",
+		"pack:dry-run": "npm pack --dry-run",
+		"prepare": "husky",
+		"release": "semantic-release",
+		"typecheck": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@mariozechner/pi-coding-agent": "*"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.16",
+		"@commitlint/cli": "^21.0.1",
+		"@commitlint/config-conventional": "^21.0.1",
+		"@mariozechner/pi-coding-agent": "^0.73.1",
+		"@semantic-release/commit-analyzer": "^13.0.1",
+		"@semantic-release/github": "^12.0.2",
+		"@semantic-release/npm": "^13.1.5",
+		"@semantic-release/release-notes-generator": "^14.1.0",
+		"@types/node": "^25.0.0",
+		"husky": "^9.1.7",
+		"semantic-release": "^25.0.3",
+		"typescript": "^6.0.3"
+	},
+	"pi": {
+		"extensions": [
+			"./extensions"
+		]
+	}
 }
