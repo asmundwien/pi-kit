@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/asmundwien/pi-kit#readme",
 	"files": [
 		"extensions",
+		"CONTRIBUTING.md",
 		"README.md"
 	],
 	"packageManager": "pnpm@10.33.2",
