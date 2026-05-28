@@ -17,7 +17,7 @@ pi install npm:pi-kit
 ### From git
 
 ```bash
-pi install git:github.com/<you>/pi-kit
+pi install git:github.com/asmundwien/pi-kit
 ```
 
 ### From a local checkout
@@ -32,16 +32,29 @@ To try it without installing:
 pi -e ./extensions/code.ts
 ```
 
-## Publish to npm
+## Releases
 
-Publishing is automated through GitHub Actions when `main` is updated. The workflow publishes the current `package.json` version only if that version is not already on npm.
+Releases are automated with Conventional Commits and semantic-release.
 
 Required repository secret:
 
 - `NPM_TOKEN` — an npm automation/access token with publish permission for this package.
 
-For manual publishing:
+Commit effects:
+
+- `fix: ...` publishes a patch release.
+- `feat: ...` publishes a minor release.
+- `feat!: ...` or a `BREAKING CHANGE:` footer publishes a major release.
+- `docs: ...`, `chore: ...`, `ci: ...`, and similar non-release commits do not publish.
+
+The release workflow runs on `main`, creates the GitHub release/tag, and publishes to npm with provenance.
+
+For the first `0.1.0` release, publish once manually and tag the release so semantic-release has a baseline:
 
 ```bash
 npm publish --access public --provenance
+git tag v0.1.0
+git push origin v0.1.0
 ```
+
+After that, release only through Conventional Commits on `main`.

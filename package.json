@@ -21,8 +21,21 @@
     "extensions",
     "README.md"
   ],
+  "scripts": {
+    "pack:dry-run": "npm pack --dry-run",
+    "release": "semantic-release"
+  },
   "peerDependencies": {
     "@mariozechner/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/github": "^12.0.2",
+    "@semantic-release/npm": "^13.1.5",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "semantic-release": "^25.0.3"
   },
   "pi": {
     "extensions": [

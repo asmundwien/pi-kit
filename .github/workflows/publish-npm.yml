@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Release
 
 on:
   push:
@@ -7,17 +7,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  issues: write
+  pull-requests: write
   id-token: write
 
 jobs:
-  publish:
-    name: Publish package
+  release:
+    name: Release
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -25,30 +29,15 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
 
-      - name: Read package metadata
-        id: package
-        shell: bash
-        run: |
-          echo "name=$(node -p "require('./package.json').name")" >> "$GITHUB_OUTPUT"
-          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-
-      - name: Check whether version is already published
-        id: published
-        shell: bash
-        run: |
-          if npm view "${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }}" version >/dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "${{ steps.package.outputs.name }}@${{ steps.package.outputs.version }} is already published; skipping."
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
+      - name: Install dependencies
+        run: npm ci
 
       - name: Validate package contents
-        if: steps.published.outputs.exists == 'false'
         run: npm pack --dry-run
 
-      - name: Publish to npm
-        if: steps.published.outputs.exists == 'false'
-        run: npm publish --access public --provenance
+      - name: Release
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
