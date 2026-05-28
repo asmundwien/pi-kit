@@ -34,8 +34,14 @@ pi -e ./extensions/code.ts
 
 ## Publish to npm
 
-Before publishing, confirm the package name and license in `package.json`, then run:
+Publishing is automated through GitHub Actions when `main` is updated. The workflow publishes the current `package.json` version only if that version is not already on npm.
+
+Required repository secret:
+
+- `NPM_TOKEN` — an npm automation/access token with publish permission for this package.
+
+For manual publishing:
 
 ```bash
-npm publish --access public
+npm publish --access public --provenance
 ```
