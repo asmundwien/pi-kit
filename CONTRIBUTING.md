@@ -18,6 +18,16 @@ pnpm run pack:dry-run
 
 The same checks run in the pre-commit hook and GitHub Actions.
 
+## Project docs
+
+- Agent/contributor operating rules live in [AGENTS.md](AGENTS.md).
+- Architecture notes live in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+- Durable decisions belong under [docs/decisions/](docs/decisions/).
+- Module documentation guidance lives in [docs/modules/](docs/modules/).
+- The `extensions/` module is documented in [extensions/README.md](extensions/README.md).
+
+Update the relevant docs in the same change when command boundaries, package shape, release behavior, or runtime integration patterns change.
+
 ## Commit messages
 
 This project uses Conventional Commits.

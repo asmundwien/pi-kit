@@ -19,6 +19,8 @@
 	"homepage": "https://github.com/asmundwien/pi-kit#readme",
 	"files": [
 		"extensions",
+		"docs",
+		"AGENTS.md",
 		"CONTRIBUTING.md",
 		"README.md"
 	],
