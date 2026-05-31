@@ -28,6 +28,22 @@ To try it without installing:
 pi -e ./extensions/code.ts
 ```
 
+## Agent tools
+
+### `collect_decisions`
+
+Lets the agent collect multiple dependent human decisions through an interactive one-topic-at-a-time TUI. Each topic shows a concise problem, suggested answers, and an option to write a custom answer. Answered choices are marked with `✓`; custom answers are shown inline next to the custom option. Press `Esc` to pause and return partial answers plus pending decisions to the agent. When resumed, previous answers can be prefilled so the full decision collection remains navigable.
+
+Use case: replacing a wall of clarification questions with a navigable decision collection.
+
+## Skills
+
+### `collect-decisions`
+
+Loads behavioral guidance for agents that are about to present multiple human decisions, clarification questions, options, or trade-offs. The skill tells the agent to use the `collect_decisions` tool for multi-item decision lists so the user answers one topic at a time instead of receiving a wall of questions.
+
+A fresh-session test prompt is bundled at [`skills/collect-decisions/references/user-test.md`](skills/collect-decisions/references/user-test.md).
+
 ## Commands
 
 ### `/code [args...]`

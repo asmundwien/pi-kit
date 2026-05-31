@@ -1,6 +1,6 @@
 # Architecture
 
-`pi-kit` is a pi package that contributes utility commands to the pi CLI through extension modules.
+`pi-kit` is a pi package that contributes utility commands, agent tools, and behavior skills to the pi CLI.
 
 ## Current boundary
 
@@ -14,23 +14,31 @@
 | - package metadata and release automation      |
 | - deterministic checks                         |
 | - governance and architecture entry points     |
-| - pi extension registration under extensions/  |
+| - pi resource registration for extensions/     |
+|   and skills/                                  |
 +------------------------+-----------------------+
                          |
-                         v
-+------------------------------------------------+
-| extensions/ module                             |
-|                                                |
-| Public surface: pi commands                    |
-| - /code                                        |
-| - /open                                        |
-|                                                |
-| Hides: argument parsing, platform command      |
-| selection, process execution, user notices     |
-+------------------------------------------------+
+              +----------+----------+
+              |                     |
+              v                     v
++----------------------------+  +----------------------------+
+| extensions/ module         |  | skills/ module             |
+|                            |  |                            |
+| Public surface: pi         |  | Public surface: behavior   |
+| commands and agent tools   |  | skills                     |
+| - /code                    |  | - collect-decisions        |
+| - /open                    |  |                            |
+| - collect_decisions tool   |  | Hides: behavioral trigger  |
+|                            |  | guidance, tool-use         |
+| Hides: argument parsing,   |  | workflow, and user-test    |
+| platform command selection,|  | protocol references        |
+| process execution, TUI     |  +----------------------------+
+| state, user notices,       |
+| structured result shaping  |
++----------------------------+
 ```
 
-The package boundary is intentionally narrow: installing the package exposes pi extension commands. Internal implementation details remain inside the extension modules.
+The package boundary is intentionally narrow: installing the package exposes pi extension resources and behavior skills. Internal implementation details remain inside their owning modules.
 
 ## Runtime flow
 
@@ -40,12 +48,32 @@ user command in pi
     -> parse command arguments
       -> execute external tool through pi.exec
         -> notify user through pi UI
+
+agent tool call
+  -> pi extension tool handler
+    -> normalize decision topics
+      -> render one-topic-at-a-time TUI
+        -> return structured answers and pending decisions
+
+agent behavior trigger
+  -> collect-decisions skill
+    -> detect multi-item human decision list
+      -> call collect_decisions tool when available
+        -> summarize completed or pending decisions
 ```
 
 Current external integrations:
 
 - `/code` invokes the `code` CLI.
 - `/open` invokes the platform opener: `open` on macOS, `xdg-open` on Linux, and `cmd /c start` on Windows.
+
+Current agent tools:
+
+- `collect_decisions` presents multiple dependent human decisions one topic at a time and returns structured answers plus pending decisions. Paused decision collections resume with all original topics plus prefilled answers so prior topics remain navigable.
+
+Current behavior skills:
+
+- `collect-decisions` guides agents to use `collect_decisions` before presenting multiple human decisions, clarification questions, options, or trade-offs as a chat list.
 
 ## Module boundaries
 
@@ -54,7 +82,7 @@ Current external integrations:
 Public responsibilities:
 
 - publish package metadata for `@asmundwien/pi-kit`
-- declare pi extension entry points
+- declare pi resource entry points
 - provide deterministic checks and release automation
 - hold root governance, architecture, and intake documents
 
@@ -67,9 +95,10 @@ Internal responsibilities:
 
 Public responsibilities:
 
-- register supported pi commands
-- preserve command names and user-visible behavior documented in `README.md`
+- register supported pi commands and agent tools
+- preserve command/tool names and user-visible behavior documented in `README.md`
 - report command failures through pi UI notifications
+- return structured tool results for agent-facing interactions
 
 Internal responsibilities:
 
@@ -77,8 +106,26 @@ Internal responsibilities:
 - select platform-specific external commands
 - call `pi.exec` with cancellation support
 - normalize stdout/stderr into user-facing notifications
+- normalize decision topics and own transient TUI state
 
 See [`../extensions/README.md`](../extensions/README.md) for module-local documentation.
+
+### `skills/` module
+
+Public responsibilities:
+
+- package behavior skills discovered by pi
+- keep skill names stable once published
+- document when an agent should load and follow each skill
+- provide lightweight test protocols for semantic behavior checks when useful
+
+Internal responsibilities:
+
+- define progressive-disclosure instructions in `SKILL.md`
+- keep detailed references near the owning skill
+- avoid duplicating extension implementation details; link to public tool behavior instead
+
+See [`../skills/README.md`](../skills/README.md) for module-local documentation.
 
 ## Modular by design
 
@@ -93,8 +140,11 @@ Treat every module level as a module with its own boundary:
 ```text
 repository root module
   -> extensions module
-    -> command modules
+    -> command/tool modules
       -> implementation units
+  -> skills module
+    -> skill directories
+      -> references
 ```
 
 This does not mean every nested module needs its own package manager, independent test suite, CI workflow, or release machinery. It means every meaningful module boundary should have appropriately scoped local documentation: README, DESIGN, architecture notes, invariants, and interface expectations as needed.

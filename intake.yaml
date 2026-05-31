@@ -1,13 +1,38 @@
 intake:
   version: 1
   items:
-    - id: d401e47c-0474-4652-b1ff-472c0103d532
-      status: open
-      created_at: 2026-05-28T11:25:28.759Z
-      created_date: 2026-05-28
-      pi_session_id: 019e6d85-0d92-7091-8e8b-7551ef9f407d
-      title: Evaluate new pi package namespace for coding-agent dependency
+    - title: Evaluate new pi package namespace for coding-agent dependency
       found_location: pnpm install warning after switching to pnpm
       classification: Adjacent
       actionability: requires judgment
       detail: pnpm reported @mariozechner/pi-coding-agent@0.73.1 is deprecated and recommends @earendil-works/pi-coding-agent instead. Current package still uses @mariozechner/pi-coding-agent because existing extension imports and pi docs reference that package name.
+      id: d401e47c-0474-4652-b1ff-472c0103d532
+      status: open
+      created_at: 2026-05-28T11:25:28.759Z
+      created_date: 2026-05-28
+      pi_session_id: 019e6d85-0d92-7091-8e8b-7551ef9f407d
+    - title: Package a collect_decisions behavior skill
+      found_location: User request during decision collection interface planning
+      classification: Adjacent
+      actionability: requires judgment
+      detail: User prioritized the pi-kit extension first, then a possible skill that teaches agents to create and use a collect_decisions workflow for multiple human decisions. Skill scope and packaging should be decided after the extension interface exists.
+      id: a2f060a8-d006-4937-abba-93d208421da4
+      status: absorbed
+      created_at: 2026-05-30T10:47:40.851Z
+      created_date: 2026-05-30
+      pi_session_id: 019e786f-de7a-705e-ad9d-1cc074c71b04
+    - id: 40720261-6dfb-4700-a403-db9f21208643
+      status: open
+      created_at: 2026-05-31T22:42:43.017Z
+      created_date: 2026-05-31
+      pi_session_id: 019e7e4c-7196-77fc-b7a2-9f9ec03cb277
+      title: Improve collect_decisions pause versus conversational-answer handling
+      found_location: Fresh-session collect-decisions skill user test feedback
+      classification: Adjacent
+      actionability: requires judgment
+      detail: User test passed the skill behavior, but observed that the tool could better distinguish between pausing for discussion and providing a custom answer outside the collector. A future tool change could make resuming with conversational answers less manual.
+      possible_duplicates:
+        - id: a2f060a8-d006-4937-abba-93d208421da4
+          title: Package a collect_decisions behavior skill
+          confidence: medium
+          reason: Both concern collect_decisions workflow/skill behavior, but candidate is a specific pause/resume handling improvement rather than packaging the skill.

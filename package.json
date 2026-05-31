@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/asmundwien/pi-kit#readme",
 	"files": [
 		"extensions",
+		"skills",
 		"docs",
 		"AGENTS.md",
 		"CONTRIBUTING.md",
@@ -39,7 +40,11 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"peerDependencies": {
-		"@mariozechner/pi-coding-agent": "*"
+		"@mariozechner/pi-coding-agent": "*",
+		"@mariozechner/pi-tui": "*"
+	},
+	"dependencies": {
+		"typebox": "^1.1.38"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.16",
@@ -58,6 +63,9 @@
 	"pi": {
 		"extensions": [
 			"./extensions"
+		],
+		"skills": [
+			"./skills"
 		]
 	}
 }
