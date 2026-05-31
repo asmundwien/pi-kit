@@ -34,6 +34,7 @@
 		"format": "biome format --write .",
 		"format:check": "biome format .",
 		"lint": "biome lint .",
+		"lockfile:check": "pnpm install --frozen-lockfile",
 		"pack:dry-run": "pnpm pack --dry-run",
 		"prepare": "husky",
 		"release": "semantic-release",
