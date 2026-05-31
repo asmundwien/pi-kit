@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mariozechner/pi-tui':
+        specifier: '*'
+        version: 0.73.1
       typebox:
         specifier: ^1.1.38
         version: 1.1.38
