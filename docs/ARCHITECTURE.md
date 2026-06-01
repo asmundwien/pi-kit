@@ -125,7 +125,7 @@ Internal responsibilities:
 - keep detailed references near the owning skill
 - avoid duplicating extension implementation details; link to public tool behavior instead
 
-See [`../skills/README.md`](../skills/README.md) for module-local documentation.
+See [`skills.md`](skills.md) for skills module documentation. It is stored outside `skills/` so pi does not discover the documentation file as a skill markdown file.
 
 ## Modular by design
 

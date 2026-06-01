@@ -1,5 +1,7 @@
 # Module: skills
 
+This module documentation lives under `docs/` instead of `skills/` because pi discovers markdown files in the package's configured skills path. Non-skill markdown inside `skills/` can be interpreted as a skill and must be avoided.
+
 ## Goal
 
 Package behavior skills for `@asmundwien/pi-kit` so agents learn when and how to use the package's interactive tools.
