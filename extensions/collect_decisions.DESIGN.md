@@ -42,6 +42,7 @@ Provide an agent-facing decision collection interface for pi sessions so agents 
 - Pausing returns both answered and pending items.
 - Non-interactive sessions fail closed with a clear tool result.
 - The UI does not send messages to the agent by itself; it only returns structured data through the tool result.
+- Human-facing topic, suggestion, and help text wraps to the available terminal width instead of truncating decision content.
 
 ## Failure and recovery
 

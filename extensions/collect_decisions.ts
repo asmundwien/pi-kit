@@ -6,6 +6,8 @@ import {
 	matchesKey,
 	Text,
 	truncateToWidth,
+	visibleWidth,
+	wrapTextWithAnsi,
 } from "@mariozechner/pi-tui";
 import { Type } from "typebox";
 
@@ -406,6 +408,18 @@ export default function collectDecisions(pi: ExtensionAPI) {
 						const items = suggestions();
 						const add = (line: string) =>
 							lines.push(truncateToWidth(line, width));
+						const addWrapped = (
+							prefix: string,
+							text: string,
+							continuationPrefix = " ".repeat(visibleWidth(prefix)),
+						) => {
+							const contentWidth = Math.max(1, width - visibleWidth(prefix));
+							const wrapped = wrapTextWithAnsi(text, contentWidth);
+							for (const [index, line] of wrapped.entries()) {
+								const linePrefix = index === 0 ? prefix : continuationPrefix;
+								lines.push(truncateToWidth(`${linePrefix}${line}`, width));
+							}
+						};
 
 						add(theme.fg("accent", "─".repeat(width)));
 						if (params.title)
@@ -431,7 +445,7 @@ export default function collectDecisions(pi: ExtensionAPI) {
 									` Topic ${currentIndex + 1} of ${decisions.length}`,
 								),
 							);
-							add(theme.fg("text", ` ${decision.problem}`));
+							addWrapped(" ", theme.fg("text", decision.problem));
 							lines.push("");
 
 							for (let index = 0; index < items.length; index++) {
@@ -447,15 +461,15 @@ export default function collectDecisions(pi: ExtensionAPI) {
 								const label = customAnswer
 									? `${index + 1}. ${item.label}: ${customAnswer}`
 									: `${index + 1}. ${item.label}`;
-								add(`${prefix}${marker}${theme.fg(color, label)}`);
+								addWrapped(`${prefix}${marker}`, theme.fg(color, label));
 								if (item.description)
-									add(`     ${theme.fg("muted", item.description)}`);
+									addWrapped("     ", theme.fg("muted", item.description));
 							}
 						}
 
 						if (customInputFor) {
 							lines.push("");
-							add(theme.fg("muted", " Your answer:"));
+							addWrapped(" ", theme.fg("muted", "Your answer:"));
 							for (const line of editor.render(Math.max(1, width - 2)))
 								add(` ${line}`);
 						}
@@ -464,7 +478,7 @@ export default function collectDecisions(pi: ExtensionAPI) {
 						const help = customInputFor
 							? " Enter submits custom answer • Esc returns to suggestions"
 							: " ←/→ switch topic • ↑/↓ choose answer • Enter confirm • Esc pause and return pending decisions";
-						add(theme.fg("dim", help));
+						addWrapped("", theme.fg("dim", help));
 						add(theme.fg("accent", "─".repeat(width)));
 						cachedLines = lines;
 						return lines;
