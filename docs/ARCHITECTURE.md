@@ -26,10 +26,10 @@
 |                            |  |                            |
 | Public surface: pi         |  | Public surface: behavior   |
 | commands and agent tools   |  | skills                     |
-| - /code                    |  | - collect-decisions        |
-| - /open                    |  |                            |
-| - collect_decisions tool   |  | Hides: behavioral trigger  |
-|                            |  | guidance, tool-use         |
+| - /picock                  |  | - collect-decisions        |
+| - /code                    |  |                            |
+| - /open                    |  | Hides: behavioral trigger  |
+| - collect_decisions tool   |  | guidance, tool-use         |
 | Hides: argument parsing,   |  | workflow, and user-test    |
 | platform command selection,|  | protocol references        |
 | process execution, TUI     |  +----------------------------+
@@ -45,8 +45,8 @@ The package boundary is intentionally narrow: installing the package exposes pi 
 ```text
 user command in pi
   -> pi extension command handler
-    -> parse command arguments
-      -> execute external tool through pi.exec
+    -> parse command arguments or present selector
+      -> execute external tool, update project config, or change editor rendering
         -> notify user through pi UI
 
 agent tool call
@@ -62,8 +62,9 @@ agent behavior trigger
         -> summarize completed or pending decisions
 ```
 
-Current external integrations:
+Current commands and external integrations:
 
+- `/picock` applies a project-persistent visual identity to Pi's input editor border using `.pi/picock.json`.
 - `/code` invokes the `code` CLI.
 - `/open` invokes the platform opener: `open` on macOS, `xdg-open` on Linux, and `cmd /c start` on Windows.
 
@@ -97,6 +98,7 @@ Public responsibilities:
 
 - register supported pi commands and agent tools
 - preserve command/tool names and user-visible behavior documented in `README.md`
+- apply documented project-local visual identity for Picock
 - report command failures through pi UI notifications
 - return structured tool results for agent-facing interactions
 
@@ -107,6 +109,7 @@ Internal responsibilities:
 - call `pi.exec` with cancellation support
 - normalize stdout/stderr into user-facing notifications
 - normalize decision topics and own transient TUI state
+- load, validate, and persist Picock project configuration
 
 See [`../extensions/README.md`](../extensions/README.md) for module-local documentation.
 
@@ -230,8 +233,8 @@ Preferred direction:
 user intent
   -> documented pi command
     -> command validation/translation
-      -> external tool invocation
-        -> user-visible notification
+      -> external tool invocation or project-local visual state
+        -> user-visible notification or editor rendering
 ```
 
 ## Decision rule

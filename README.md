@@ -46,6 +46,17 @@ A fresh-session test prompt is bundled at [`skills/collect-decisions/references/
 
 ## Commands
 
+### `/picock [color|style|reset]`
+
+Colors the Pi input editor border so the current project is easy to identify when several Pi windows are open. The identity is persisted in `.pi/picock.json` for the project.
+
+- `/picock` opens an action selector for color, style, or reset.
+- `/picock color` chooses a favorite color with live preview while navigating.
+- `/picock style` chooses a border character preset with live preview: minimal, heavy, double, or block.
+- `/picock reset` removes the project identity and restores the default editor border.
+
+The selected color is shown through the top and bottom border lines. The centered label shows values only, such as project, model, and thinking level.
+
 ### `/code [args...]`
 
 Runs the VS Code `code` CLI and forwards arguments.
