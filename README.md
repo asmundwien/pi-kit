@@ -42,9 +42,22 @@ Use case: replacing a wall of clarification questions with a navigable decision 
 
 Loads behavioral guidance for agents that are about to present multiple human decisions, clarification questions, options, or trade-offs. The skill tells the agent to use the `collect_decisions` tool for multi-item decision lists so the user answers one topic at a time instead of receiving a wall of questions.
 
-A fresh-session test prompt is bundled at [`skills/collect-decisions/references/user-test.md`](skills/collect-decisions/references/user-test.md).
+### `harden`
+
+Loads behavioral guidance for hardening code, docs, designs, or agent-produced changes before completion. The workflow reviews from multiple angles, fixes safe in-scope issues, verifies the result, and escalates decisions that need human judgment.
 
 ## Commands
+
+### `/harden [target and criteria]`
+
+Asks the agent to load the `harden` skill and harden the requested target. By default, safe in-scope findings are fixed automatically; product, UX, architecture, security posture, public-contract, and scope decisions are escalated. If the agent is busy, the request is queued as a follow-up, so state-sensitive targets such as "current diff" are evaluated when the follow-up runs.
+
+Examples:
+
+```text
+/harden current diff against the requested behavior
+/harden docs/ARCHITECTURE.md for consistency with this change
+```
 
 ### `/picock [color|style|reset]`
 

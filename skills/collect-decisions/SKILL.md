@@ -98,6 +98,3 @@ If `collect_decisions` is unavailable, say that the decision collection tool is 
 
 A good decision collection feels like a guided sequence, not a questionnaire dump. The user should see one problem, choose from meaningful options, and still be able to pause for discussion without losing later decisions or being forced back into the collector before they are ready.
 
-## User test protocol
-
-See [`references/user-test.md`](references/user-test.md) for a prompt that exercises the semantic behavior in a fresh pi session and produces an iteration-ready result report.

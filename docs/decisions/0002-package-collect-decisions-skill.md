@@ -14,7 +14,7 @@ The intended behavior is triggered before the agent presents a list of things th
 
 Package a `collect-decisions` skill under `skills/collect-decisions/` and expose it through the package manifest. The skill teaches agents to detect when they are about to ask for multiple human decisions, convert each item into a focused decision topic, call the `collect_decisions` tool when available, and preserve/resume pending decisions after pauses.
 
-Include a user-test reference prompt with the skill so fresh pi sessions can exercise the semantic behavior and return an iteration-ready `Collect Decisions Skill Test Result`.
+The initial implementation included a user-test reference prompt. That reference was later removed as a stale artifact; semantic behavior is now documented in the skill itself.
 
 ## Consequences
 
@@ -22,3 +22,4 @@ Include a user-test reference prompt with the skill so fresh pi sessions can exe
 - The skill owns behavioral guidance; the extension tool continues to own UI state and structured results.
 - Installed package users can get the tool and the behavioral trigger together.
 - Behavior validation remains partly semantic and user-observed because the important outcome is whether the agent avoids a wall of questions in a live session.
+- Stale test prompts should be removed rather than packaged as misleading validation artifacts.

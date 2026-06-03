@@ -27,11 +27,12 @@
 | Public surface: pi         |  | Public surface: behavior   |
 | commands and agent tools   |  | skills                     |
 | - /picock                  |  | - collect-decisions        |
-| - /code                    |  |                            |
+| - /code                    |  | - harden                   |
 | - /open                    |  | Hides: behavioral trigger  |
-| - collect_decisions tool   |  | guidance, tool-use         |
-| Hides: argument parsing,   |  | workflow, and user-test    |
-| platform command selection,|  | protocol references        |
+| - /harden                  |  | guidance, tool-use         |
+| - collect_decisions tool   |  | hardening workflow,        |
+| Hides: argument parsing,   |  | and behavior details       |
+| platform command selection,|  |                            |
 | process execution, TUI     |  +----------------------------+
 | state, user notices,       |
 | structured result shaping  |
@@ -45,9 +46,9 @@ The package boundary is intentionally narrow: installing the package exposes pi 
 ```text
 user command in pi
   -> pi extension command handler
-    -> parse command arguments or present selector
-      -> execute external tool, update project config, or change editor rendering
-        -> notify user through pi UI
+    -> parse command arguments, present selector, or forward skill prompt
+      -> execute external tool, update project config, change editor rendering, or queue agent turn
+        -> notify user through pi UI when needed
 
 agent tool call
   -> pi extension tool handler
@@ -60,13 +61,22 @@ agent behavior trigger
     -> detect multi-item human decision list
       -> call collect_decisions tool when available
         -> summarize completed or pending decisions
+
+user asks to harden work
+  -> harden skill
+    -> identify target, criteria, scope, and review lens roster
+      -> run Round 1 multi-angle independent reviewer fanout where available
+        -> synthesize findings into safe fixes vs human decisions
+          -> apply safe fixes through one writer path and verify
+            -> optionally run focused Round 2, then stop
 ```
 
-Current commands and external integrations:
+Current commands and integrations:
 
 - `/picock` applies a project-persistent visual identity to Pi's input editor border using `.pi/picock.json`.
 - `/code` invokes the `code` CLI.
 - `/open` invokes the platform opener: `open` on macOS, `xdg-open` on Linux, and `cmd /c start` on Windows.
+- `/harden` sends an agent message that asks the agent to load and follow the packaged `harden` skill for a bounded multi-angle hardening workflow with up to two review rounds.
 
 Current agent tools:
 
@@ -75,6 +85,7 @@ Current agent tools:
 Current behavior skills:
 
 - `collect-decisions` guides agents to use `collect_decisions` before presenting multiple human decisions, clarification questions, options, or trade-offs as a chat list.
+- `harden` guides agents through a bounded multi-angle hardening workflow against explicit criteria, including reviewer selection, up to two review rounds, evidence-tied synthesis, safe auto-fixes, verification, and escalation for human decisions.
 
 ## Module boundaries
 
@@ -99,6 +110,7 @@ Public responsibilities:
 - register supported pi commands and agent tools
 - preserve command/tool names and user-visible behavior documented in `README.md`
 - apply documented project-local visual identity for Picock
+- forward `/harden` requests into an agent turn that uses the packaged harden skill
 - report command failures through pi UI notifications
 - return structured tool results for agent-facing interactions
 
@@ -107,6 +119,7 @@ Internal responsibilities:
 - parse raw command input
 - select platform-specific external commands
 - call `pi.exec` with cancellation support
+- call `sendUserMessage` for command-to-skill forwarding
 - normalize stdout/stderr into user-facing notifications
 - normalize decision topics and own transient TUI state
 - load, validate, and persist Picock project configuration
@@ -120,7 +133,7 @@ Public responsibilities:
 - package behavior skills discovered by pi
 - keep skill names stable once published
 - document when an agent should load and follow each skill
-- provide lightweight test protocols for semantic behavior checks when useful
+- keep hardening workflows bounded to explicit target, criteria, review lens roster, evidence, safe-fix policy, verification, and stop conditions
 
 Internal responsibilities:
 
